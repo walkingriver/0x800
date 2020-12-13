@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Game</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div #gameBoard class="game-board">
+    <div class="game-piece" *ngFor="let piece of gamePieces" [class]="piece.colorClass + ' ' + piece.gridClass">
+      {{piece.value}}
+    </div>
+  </div>
+  <!-- 
+    <div  id="gameBoard" class="game-board" [ngClass]='direction'> 
+  </div> -->
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="shiftLeft()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="shiftUp()">
+        <ion-icon slot="icon-only" name="arrow-up-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="shiftDown()">
+        <ion-icon slot="icon-only" name="arrow-down-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="shiftRight()">
+        <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-content>
