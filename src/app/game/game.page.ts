@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Gesture, GestureController } from '@ionic/angular';
 
 interface GamePiece {
@@ -6,6 +6,7 @@ interface GamePiece {
   column?: number;
   row?: number;
   combined?: boolean;
+  remove?: boolean;
   colorClass?: string;
   gridClass?: string;
 }
@@ -24,6 +25,9 @@ export class GamePage implements AfterViewInit {
   direction: '' | 'north' | 'south' | 'east' | 'west' = '';
   horizontalSwipe: Gesture;
   verticalSwipe: Gesture;
+
+  didMove = false;
+  score = 0;
 
   constructor(private gestureCtrl: GestureController) {
   }
@@ -95,6 +99,25 @@ export class GamePage implements AfterViewInit {
     console.log(detail);
   }
 
+  // @HostListener('window:keyup', ['$event']) 
+  // onKeyUp($event: KeyboardEvent) {
+  //   switch ($event.key) {
+  //     case 'ArrowLeft':
+  //       this.shiftLeft();
+  //       break;
+  //     case 'ArrowRight':
+  //       this.shiftRight();
+  //       break;
+  //     case 'ArrowUp':
+  //       this.shiftUp();
+  //       break;
+  //     case 'ArrowDown':
+  //       this.shiftDown();
+  //       break;
+  //   }
+  // }
+
+  @HostListener('window:keyup.ArrowUp')
   shiftUp() {
     for (let col = 1; col <= this.maxCol; col++) {
       this.shiftColumnUp(col);
@@ -115,7 +138,7 @@ export class GamePage implements AfterViewInit {
    * @param row
    * @param col
    */
-  shiftCellUp(row, col) {
+  shiftCellUp(row: number, col: number) {
     if (row === 1) {
       // Boundary condition
       return;
@@ -131,14 +154,15 @@ export class GamePage implements AfterViewInit {
     const pieceInTheWay = this.gamePieces.find(piece => piece.row === row - 1 && piece.column === col);
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      pieceInTheWay.row = row;
+      // pieceInTheWay.row = row;
       pieceToBeMoved.row = row - 1;
     } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
       // There is a piece in the way with the same value.
       // Merge the values and reset the value of the piece being moved
-      pieceInTheWay.value += pieceToBeMoved.value;
-      pieceInTheWay.combined = true;
-      pieceToBeMoved.value = 0;
+      // pieceInTheWay.value += pieceToBeMoved.value;
+      pieceToBeMoved.row = row - 1;
+      pieceInTheWay.remove = true;
+      // pieceToBeMoved.value = 0;
       pieceToBeMoved.combined = true;
     } else {
       // Nothing else can be done here, so bail.
@@ -149,6 +173,7 @@ export class GamePage implements AfterViewInit {
     this.shiftCellUp(row - 1, col);
   }
 
+  @HostListener('window:keyup.ArrowDown')
   shiftDown() {
     for (let col = 1; col <= this.maxCol; col++) {
       this.shiftColumnDown(col);
@@ -185,14 +210,15 @@ export class GamePage implements AfterViewInit {
     const pieceInTheWay = this.gamePieces.find(piece => piece.row === row + 1 && piece.column === col);
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      pieceInTheWay.row = row;
+      // pieceInTheWay.row = row;
       pieceToBeMoved.row = row + 1;
     } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
       // There is a piece in the way with the same value.
       // Merge the values and reset the value of the piece being moved
-      pieceInTheWay.value += pieceToBeMoved.value;
-      pieceInTheWay.combined = true;
-      pieceToBeMoved.value = 0;
+      // pieceInTheWay.value += pieceToBeMoved.value;
+      pieceToBeMoved.row = row + 1;
+      pieceInTheWay.remove = true;
+      // pieceToBeMoved.value = 0;
       pieceToBeMoved.combined = true;
     } else {
       // Nothing else can be done here, so bail.
@@ -203,6 +229,7 @@ export class GamePage implements AfterViewInit {
     this.shiftCellDown(row + 1, col);
   }
 
+  @HostListener('window:keyup.ArrowRight')
   shiftRight() {
     for (let row = 1; row <= this.maxRow; row++) {
       this.shiftRowRight(row);
@@ -239,14 +266,15 @@ export class GamePage implements AfterViewInit {
     const pieceInTheWay = this.gamePieces.find(piece => piece.row === row && piece.column === col + 1);
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      pieceInTheWay.column = col;
+      // pieceInTheWay.column = col;
       pieceToBeMoved.column = col + 1;
     } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
       // There is a piece in the way with the same value.
       // Merge the values and reset the value of the piece being moved
-      pieceInTheWay.value += pieceToBeMoved.value;
-      pieceInTheWay.combined = true;
-      pieceToBeMoved.value = 0;
+      // pieceInTheWay.value += pieceToBeMoved.value;
+      pieceToBeMoved.column = col + 1;
+      pieceInTheWay.remove = true;
+      // pieceToBeMoved.value = 0;
       pieceToBeMoved.combined = true;
     } else {
       // Nothing else can be done here, so bail.
@@ -256,6 +284,8 @@ export class GamePage implements AfterViewInit {
     // Try to shift the cell Right again
     this.shiftCellRight(row, col + 1);
   }
+
+  @HostListener('window:keyup.ArrowLeft')
   shiftLeft() {
     for (let row = 1; row <= this.maxRow; row++) {
       this.shiftRowLeft(row);
@@ -292,14 +322,15 @@ export class GamePage implements AfterViewInit {
     const pieceInTheWay = this.gamePieces.find(piece => piece.row === row && piece.column === col - 1);
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      pieceInTheWay.column = col;
+      // pieceInTheWay.column = col;
       pieceToBeMoved.column = col - 1;
     } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
       // There is a piece in the way with the same value.
       // Merge the values and reset the value of the piece being moved
-      pieceInTheWay.value += pieceToBeMoved.value;
-      pieceInTheWay.combined = true;
-      pieceToBeMoved.value = 0;
+      // pieceInTheWay.value += pieceToBeMoved.value;
+      pieceToBeMoved.column = col - 1;
+      pieceInTheWay.remove = true;
+      // pieceToBeMoved.value = 0;
       pieceToBeMoved.combined = true;
     } else {
       // Nothing else can be done here, so bail.
@@ -311,45 +342,66 @@ export class GamePage implements AfterViewInit {
   }
 
   endTurn() {
-    for (let row = 1; row <= this.maxRow; row++) {
-      for (let col = 1; col <= this.maxCol; col++) {
-        const piece = this.gamePieces.find(piece => piece.row === row && piece.column === col);
-        this.updatePiece(piece, row, col);
-      }
-    }
+    this.gamePieces
+      .map(piece =>
+        this.movePiece(piece)
+      );
 
-    this.addRandomPiece(this.gamePieces.filter(piece => !piece.value));
+    // Next, update the values and remove combined tiles
+    setTimeout(() => {
+      this.gamePieces = this.gamePieces.filter(piece => !piece.remove);
+      this.gamePieces
+        .filter(piece => piece.combined)
+        .map(piece => {
+          piece.combined = false;
+          piece.value *= 2;
+          this.movePiece(piece);
+        });
+      this.addRandomPiece();
+    }, 100);
   }
 
-  private updatePiece(piece: GamePiece, row: number, col: number) {
-    piece.column = col;
-    piece.row = row;
-    piece.combined = false;
-    piece.gridClass = `grid-${row}-${col}`;
+  private movePiece(piece: GamePiece) {
+    piece.gridClass = `row-${piece.row} col-${piece.column}`;
     piece.colorClass = `color-${piece.value || 0}`;
   }
 
   resetBoard() {
     this.gamePieces = [];
+    this.score = 0;
+    this.didMove = false;
+    this.addRandomPiece();
+    this.addRandomPiece();
+  }
+
+  findEmptySpaces() {
+    const emptySpaces = [];
     for (let row = 1; row <= this.maxRow; row++) {
       for (let col = 1; col <= this.maxCol; col++) {
-        const piece: GamePiece = {};
-        this.updatePiece(piece, row, col);
-        this.gamePieces.push(piece);
+        const piece = this.gamePieces.find(piece => piece.row === row && piece.column === col);
+        if (!piece) {
+          emptySpaces.push({ row, col });
+        }
       }
     }
 
-    this.addRandomPiece(this.gamePieces.filter(piece => !piece.value));
-    this.addRandomPiece(this.gamePieces.filter(piece => !piece.value));
+    return emptySpaces;
   }
 
-  addRandomPiece(pieces: GamePiece[]) {
-    if (pieces?.length) {
-      const len = pieces.length;
+  addRandomPiece() {
+    const emptySpaces = this.findEmptySpaces();
+
+    if (emptySpaces?.length) {
+      const len = emptySpaces.length;
       const index = Math.floor(Math.random() * len);
-      const piece = pieces[index];
-      piece.value = 2;
-      this.updatePiece(piece, piece.row, piece.column);
+      const position = emptySpaces[index];
+      const piece: GamePiece = {
+        column: position.col,
+        row: position.row,
+        value: 2
+      };
+      this.movePiece(piece);
+      this.gamePieces.push(piece);
     } else {
       this.endGame();
     }
