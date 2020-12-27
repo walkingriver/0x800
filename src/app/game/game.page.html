@@ -1,28 +1,31 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Game</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    <h1 class="score">
-      Score: {{score}}
-    </h1>
-    <!-- <p class="">Swipe the board left, right, up, and down to move all tiles in that direction.
+  <div class="game-wrapper">
+    <div class="ion-padding">
+      <h1 class="score">Score: {{score}}</h1>
+      <!-- <p class="">Swipe the board left, right, up, and down to move all tiles in that direction.
       Tiles with identical values will be combined. Try to get all the way to 2048. A
       new "2" tile will be added to the board randomly with every turn. Plan your moves
       carefully.
     </p> -->
-  </div>
+    </div>
     <div #gameBoard class="game-board">
-    <div class="game-piece" *ngFor="let piece of gamePieces" [class]="piece.colorClass + ' ' + piece.gridClass">
+      <div
+        class="game-piece"
+        *ngFor="let piece of gamePieces"
+        [class]="piece.colorClass + ' ' + piece.gridClass"
+      ></div>
     </div>
   </div>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-button (click)="shiftLeft()">
         <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>

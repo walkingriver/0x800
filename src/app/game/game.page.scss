@@ -1,4 +1,47 @@
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: #C1A172;
+}
+
+.panel ul,
+.panel li,
+p {
+  color: #C1A172;
+}
+
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+
+ion-content {
+  background-color: transparent;
+  background-image: none;
+}
+
+.game-wrapper,
+.panel {
+  background-image: url(/assets/brown-bg.jpg);
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+
+.game-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 110vh;
+}
+
+.panel {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
 .game-board {
   display: block;

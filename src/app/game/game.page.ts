@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import { Gesture, GestureController } from '@ionic/angular';
 
 interface GamePiece {
@@ -29,29 +35,34 @@ export class GamePage implements AfterViewInit {
   didMove = false;
   score = 0;
 
-  constructor(private gestureCtrl: GestureController) {
-  }
+  constructor(private gestureCtrl: GestureController) {}
 
   ngAfterViewInit() {
-    this.horizontalSwipe = this.gestureCtrl.create({
-      el: this.gameBoard.nativeElement,
-      threshold: 15,
-      gestureName: 'horizontalSwipe',
-      direction: 'x',
-      maxAngle: 30,
-      onMove: detail => this.onHorizontalSwipe(detail),
-      onEnd: (_) => this.onHorizontalSwipeEnd(_)
-    }, true);
+    this.horizontalSwipe = this.gestureCtrl.create(
+      {
+        el: this.gameBoard.nativeElement,
+        threshold: 15,
+        gestureName: 'horizontalSwipe',
+        direction: 'x',
+        maxAngle: 30,
+        onMove: (detail) => this.onHorizontalSwipe(detail),
+        onEnd: (_) => this.onHorizontalSwipeEnd(_),
+      },
+      true
+    );
 
-    this.verticalSwipe = this.gestureCtrl.create({
-      el: this.gameBoard.nativeElement,
-      threshold: 15,
-      gestureName: 'verticalSwipe',
-      direction: 'y',
-      maxAngle: 30,
-      onMove: detail => this.onVerticalSwipe(detail),
-      onEnd: (_) => this.onVerticalSwipeEnd(_)
-    }, true);
+    this.verticalSwipe = this.gestureCtrl.create(
+      {
+        el: this.gameBoard.nativeElement,
+        threshold: 15,
+        gestureName: 'verticalSwipe',
+        direction: 'y',
+        maxAngle: 30,
+        onMove: (detail) => this.onVerticalSwipe(detail),
+        onEnd: (_) => this.onVerticalSwipeEnd(_),
+      },
+      true
+    );
     // The `true` above ensures that callbacks run inside NgZone.
 
     this.verticalSwipe.enable();
@@ -59,7 +70,6 @@ export class GamePage implements AfterViewInit {
 
     this.resetBoard();
   }
-
 
   onHorizontalSwipe(detail) {
     console.log('<<<<------>>>>>>');
@@ -99,24 +109,6 @@ export class GamePage implements AfterViewInit {
     console.log(detail);
   }
 
-  // @HostListener('window:keyup', ['$event']) 
-  // onKeyUp($event: KeyboardEvent) {
-  //   switch ($event.key) {
-  //     case 'ArrowLeft':
-  //       this.shiftLeft();
-  //       break;
-  //     case 'ArrowRight':
-  //       this.shiftRight();
-  //       break;
-  //     case 'ArrowUp':
-  //       this.shiftUp();
-  //       break;
-  //     case 'ArrowDown':
-  //       this.shiftDown();
-  //       break;
-  //   }
-  // }
-
   @HostListener('window:keyup.ArrowUp')
   shiftUp() {
     for (let col = 1; col <= this.maxCol; col++) {
@@ -144,26 +136,33 @@ export class GamePage implements AfterViewInit {
       return;
     }
 
-    const pieceToBeMoved = this.gamePieces.find(piece => piece.row === row && piece.column === col);
+    const pieceToBeMoved = this.gamePieces.find(
+      (piece) => piece.row === row && piece.column === col
+    );
     // If there is no piece there, skip it
     if (!pieceToBeMoved?.value) {
       return;
     }
 
     // We have a piece with a value, now try to move it up one row
-    const pieceInTheWay = this.gamePieces.find(piece => piece.row === row - 1 && piece.column === col);
+    const pieceInTheWay = this.gamePieces.find(
+      (piece) => piece.row === row - 1 && piece.column === col
+    );
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      // pieceInTheWay.row = row;
       pieceToBeMoved.row = row - 1;
-    } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
-      // There is a piece in the way with the same value.
-      // Merge the values and reset the value of the piece being moved
-      // pieceInTheWay.value += pieceToBeMoved.value;
-      pieceToBeMoved.row = row - 1;
-      pieceInTheWay.remove = true;
-      // pieceToBeMoved.value = 0;
-      pieceToBeMoved.combined = true;
+      this.didMove = true;
+    } else if (
+      pieceInTheWay.value === pieceToBeMoved.value &&
+      !pieceInTheWay.remove &&
+      !pieceToBeMoved.combined
+      ) {
+        // There is a piece in the way with the same value.
+        // Merge the values and reset the value of the piece being moved
+        pieceToBeMoved.row = row - 1;
+        pieceInTheWay.remove = true;
+        pieceToBeMoved.combined = true;
+        this.didMove = true;
     } else {
       // Nothing else can be done here, so bail.
       return;
@@ -200,26 +199,33 @@ export class GamePage implements AfterViewInit {
       return;
     }
 
-    const pieceToBeMoved = this.gamePieces.find(piece => piece.row === row && piece.column === col);
+    const pieceToBeMoved = this.gamePieces.find(
+      (piece) => piece.row === row && piece.column === col
+    );
     // If there is no piece there, skip it
     if (!pieceToBeMoved?.value) {
       return;
     }
 
     // We have a piece with a value, now try to move it up one row
-    const pieceInTheWay = this.gamePieces.find(piece => piece.row === row + 1 && piece.column === col);
+    const pieceInTheWay = this.gamePieces.find(
+      (piece) => piece.row === row + 1 && piece.column === col
+    );
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      // pieceInTheWay.row = row;
       pieceToBeMoved.row = row + 1;
-    } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
+      this.didMove = true;
+    } else if (
+      pieceInTheWay.value === pieceToBeMoved.value &&
+      !pieceInTheWay.remove &&
+      !pieceToBeMoved.combined
+    ) {
       // There is a piece in the way with the same value.
       // Merge the values and reset the value of the piece being moved
-      // pieceInTheWay.value += pieceToBeMoved.value;
       pieceToBeMoved.row = row + 1;
       pieceInTheWay.remove = true;
-      // pieceToBeMoved.value = 0;
       pieceToBeMoved.combined = true;
+      this.didMove = true;
     } else {
       // Nothing else can be done here, so bail.
       return;
@@ -256,26 +262,33 @@ export class GamePage implements AfterViewInit {
       return;
     }
 
-    const pieceToBeMoved = this.gamePieces.find(piece => piece.row === row && piece.column === col);
+    const pieceToBeMoved = this.gamePieces.find(
+      (piece) => piece.row === row && piece.column === col
+    );
     // If there is no piece there, skip it
     if (!pieceToBeMoved?.value) {
       return;
     }
 
-    // We have a piece with a value, now try to move it up one row
-    const pieceInTheWay = this.gamePieces.find(piece => piece.row === row && piece.column === col + 1);
+    // We have a piece with a value, now try to move it right one column
+    const pieceInTheWay = this.gamePieces.find(
+      (piece) => piece.row === row && piece.column === col + 1
+    );
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      // pieceInTheWay.column = col;
       pieceToBeMoved.column = col + 1;
-    } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
+      this.didMove = true;
+    } else if (
+      pieceInTheWay.value === pieceToBeMoved.value &&
+      !pieceInTheWay.remove &&
+      !pieceToBeMoved.combined
+    ) {
       // There is a piece in the way with the same value.
       // Merge the values and reset the value of the piece being moved
-      // pieceInTheWay.value += pieceToBeMoved.value;
       pieceToBeMoved.column = col + 1;
       pieceInTheWay.remove = true;
-      // pieceToBeMoved.value = 0;
       pieceToBeMoved.combined = true;
+      this.didMove = true;
     } else {
       // Nothing else can be done here, so bail.
       return;
@@ -312,26 +325,33 @@ export class GamePage implements AfterViewInit {
       return;
     }
 
-    const pieceToBeMoved = this.gamePieces.find(piece => piece.row === row && piece.column === col);
+    const pieceToBeMoved = this.gamePieces.find(
+      (piece) => piece.row === row && piece.column === col
+    );
     // If there is no piece there, skip it
     if (!pieceToBeMoved?.value) {
       return;
     }
 
     // We have a piece with a value, now try to move it up one row
-    const pieceInTheWay = this.gamePieces.find(piece => piece.row === row && piece.column === col - 1);
+    const pieceInTheWay = this.gamePieces.find(
+      (piece) => piece.row === row && piece.column === col - 1
+    );
     if (!pieceInTheWay?.value) {
       // If there is no piece there, "swap" them and get out
-      // pieceInTheWay.column = col;
       pieceToBeMoved.column = col - 1;
-    } else if (pieceInTheWay.value === pieceToBeMoved.value && !pieceInTheWay.combined && !pieceToBeMoved.combined) {
+      this.didMove = true;
+    } else if (
+      pieceInTheWay.value === pieceToBeMoved.value &&
+      !pieceInTheWay.remove &&
+      !pieceToBeMoved.combined
+    ) {
       // There is a piece in the way with the same value.
       // Merge the values and reset the value of the piece being moved
-      // pieceInTheWay.value += pieceToBeMoved.value;
       pieceToBeMoved.column = col - 1;
       pieceInTheWay.remove = true;
-      // pieceToBeMoved.value = 0;
       pieceToBeMoved.combined = true;
+      this.didMove = true;
     } else {
       // Nothing else can be done here, so bail.
       return;
@@ -342,21 +362,26 @@ export class GamePage implements AfterViewInit {
   }
 
   endTurn() {
-    this.gamePieces
-      .map(piece =>
-        this.movePiece(piece)
-      );
+    if (!this.didMove) {
+      return;
+    }
+
+    this.didMove = false;
+
+    this.gamePieces.map((piece) => this.movePiece(piece));
 
     // Next, update the values and remove combined tiles
     setTimeout(() => {
-      this.gamePieces = this.gamePieces.filter(piece => !piece.remove);
+      this.gamePieces = this.gamePieces.filter((piece) => !piece.remove);
       this.gamePieces
-        .filter(piece => piece.combined)
-        .map(piece => {
+        .filter((piece) => piece.combined)
+        .map((piece) => {
           piece.combined = false;
           piece.value *= 2;
           this.movePiece(piece);
+          this.score += piece.value;
         });
+
       this.addRandomPiece();
     }, 100);
   }
@@ -378,7 +403,9 @@ export class GamePage implements AfterViewInit {
     const emptySpaces = [];
     for (let row = 1; row <= this.maxRow; row++) {
       for (let col = 1; col <= this.maxCol; col++) {
-        const piece = this.gamePieces.find(piece => piece.row === row && piece.column === col);
+        const piece = this.gamePieces.find(
+          (piece) => piece.row === row && piece.column === col
+        );
         if (!piece) {
           emptySpaces.push({ row, col });
         }
@@ -398,7 +425,7 @@ export class GamePage implements AfterViewInit {
       const piece: GamePiece = {
         column: position.col,
         row: position.row,
-        value: 2
+        value: 2,
       };
       this.movePiece(piece);
       this.gamePieces.push(piece);
