@@ -2,9 +2,11 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Host,
   HostListener,
   ViewChild,
 } from '@angular/core';
+import { RouterLinkWithHref } from '@angular/router';
 import { Gesture, GestureController } from '@ionic/angular';
 
 interface GamePiece {
@@ -156,13 +158,13 @@ export class GamePage implements AfterViewInit {
       pieceInTheWay.value === pieceToBeMoved.value &&
       !pieceInTheWay.remove &&
       !pieceToBeMoved.combined
-      ) {
-        // There is a piece in the way with the same value.
-        // Merge the values and reset the value of the piece being moved
-        pieceToBeMoved.row = row - 1;
-        pieceInTheWay.remove = true;
-        pieceToBeMoved.combined = true;
-        this.didMove = true;
+    ) {
+      // There is a piece in the way with the same value.
+      // Merge the values and reset the value of the piece being moved
+      pieceToBeMoved.row = row - 1;
+      pieceInTheWay.remove = true;
+      pieceToBeMoved.combined = true;
+      this.didMove = true;
     } else {
       // Nothing else can be done here, so bail.
       return;
@@ -425,7 +427,7 @@ export class GamePage implements AfterViewInit {
       const piece: GamePiece = {
         column: position.col,
         row: position.row,
-        value: 2,
+        value: Math.pow(2, 1),
       };
       this.movePiece(piece);
       this.gamePieces.push(piece);
@@ -434,7 +436,31 @@ export class GamePage implements AfterViewInit {
     }
   }
 
+  demoBestBoard() {
+    let pow = 26;
+    for (let col = 1; col <= this.maxCol; col++) {
+      for (let row = 1; row <= this.maxRow; row++) {
+        const piece: GamePiece = {
+          column: col,
+          row: row,
+          value: Math.pow(2, pow--),
+        };
+        this.movePiece(piece);
+        this.gamePieces.push(piece);
+      }
+    }
+  }
+
   endGame() {
     // It's over!
+  }
+
+  @HostListener('document:keypress', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    if (event.key !== '~') {
+      return;
+    }
+
+    this.demoBestBoard();
   }
 }

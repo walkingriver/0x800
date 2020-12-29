@@ -1,3 +1,5 @@
+$base-color: #4C2A19;
+$brown: #c1a172;
 
 h1,
 h2,
@@ -6,13 +8,14 @@ h4,
 h5,
 h6 {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  color: #C1A172;
+  color: $brown;
 }
 
 .panel ul,
 .panel li,
+.game-piece
 p {
-  color: #C1A172;
+  color: $brown;
 }
 
 ::-webkit-scrollbar,
@@ -51,24 +54,20 @@ ion-content {
   background-image: url(/assets/wood-bg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  // grid-column-gap: 25px;
-  // grid-row-gap: 25px;
-  // grid-template-columns: auto auto auto auto auto;
-  // grid-template-rows: auto auto auto auto auto;
 }
 
 .game-piece {
   display: block;
   position: absolute;
   text-align: center;
-  transition: background-color 0.1s, transform 0.1s, top 0.1s, left 0.1s, bottom 0.1s, right 0.1s;
+  transition: background-color 0.1s, transform 0.1s, top 0.1s, left 0.1s,
+  bottom 0.1s, right 0.1s;
   height: 18%;
   width: 18%;
   padding: 1%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: #c1a172 outset 2px;
+  border: $brown outset 2px;
   border-radius: 12px;
+  line-height: min(15vw, 15vh);
 }
 
 .row-1 {
@@ -114,65 +113,173 @@ ion-content {
 .color-0,
 .color-undefined {
   border: 0.5px inset #dddddd;
-  background-color: #ffffff;
   color: #ffffff;
+  background-color: lighten($base-color, 100%)
 }
 
 .color-2 {
-  background-color: #edded4;
-  background-image: url(/assets/tiles/2.png);
+  font-size: min(4.75vw, 4.75vh);
+  // background-image: url(/assets/tiles/2.png);
+  background-color: lighten($base-color, 75%);
+  color: darken($color: $base-color, $amount: 0%);
 }
 
 .color-4 {
-  background-color: #f1bfb1;
-  background-image: url(/assets/tiles/4.png);
+  font-size: min(4.75vw, 4.75vh);
+  // background-image: url(/assets/tiles/4.png);
+  background-color: lighten($base-color, 72%);
+  color: darken($color: $base-color, $amount: 3%);
 }
 
 .color-8 {
-  background-color: #f3d1c8;
-  background-image: url(/assets/tiles/8.png);
+  font-size: min(4.75vw, 4.75vh);
+  // background-image: url(/assets/tiles/8.png);
+  background-color: lighten($base-color, 69%);
+  color: darken($color: $base-color, $amount: 6%);
 }
 
 .color-16 {
-  background-color: #e3b5a8;
-  background-image: url(/assets/tiles/16.png);
+  font-size: min(4.50vw, 4.50vh);
+  // background-image: url(/assets/tiles/16.png);
+  background-color: lighten($base-color, 66%);
+  color: darken($color: $base-color, $amount: 9%);
 }
 
 .color-32 {
-  background-color: #ef9a93;
-  background-image: url(/assets/tiles/32.png);
+  font-size: min(4.50vw, 4.50vh);
+  // background-image: url(/assets/tiles/32.png);
+  background-color: lighten($base-color, 63%);
+  color: darken($color: $base-color, $amount: 12%);
 }
 
 .color-64 {
-  background-color: #e79580;
-  background-image: url(/assets/tiles/64.png);
+  font-size: min(4.50vw, 4.50vh);
+  // background-image: url(/assets/tiles/64.png);
+  background-color: lighten($base-color, 60%);
+  color: darken($color: $base-color, $amount: 15%);
 }
 
 .color-128 {
-  background-color: #cc8e7f;
-  background-image: url(/assets/tiles/128.png);
+  font-size: min(4.75vw, 4.75vh);
+  // background-image: url(/assets/tiles/128.png);
+  background-color: lighten($base-color, 57%);
+  color: darken($color: $base-color, $amount: 18%);
 }
 
 .color-256 {
-  background-color: #e5756a;
-  background-image: url(/assets/tiles/256.png);
+  font-size: min(4.75vw, 4.75vh);
+  // background-image: url(/assets/tiles/256.png);
+  background-color: lighten($base-color, 54%);
+  color: darken($color: $base-color, $amount: 21%);
 }
 
 .color-512 {
-  background-color: #ed9290;
-  background-image: url(/assets/tiles/512.png);
+  font-size: min(4.75vw, 4.75vh);
+  // background-image: url(/assets/tiles/512.png);
+  background-color: lighten($base-color, 51%);
+  color: darken($color: $base-color, $amount: 24%);
 }
 
 .color-1024 {
-  background-color: #c76456;
-  background-image: url(/assets/tiles/1024.png);
+  font-size: min(4.50vw, 4.50vh);
+  // background-image: url(/assets/tiles/1024.png);
+  background-color: lighten($base-color, 48%);
+  color: darken($color: $base-color, $amount: 27%);
 }
 
 .color-2048 {
-  background-color: #e79580;
-  background-image: url(/assets/tiles/2048.png);
+  font-size: min(4.25vw, 4.25vh);
+  // background-image: url(/assets/tiles/2048.png);
+  background-color: lighten($base-color, 45%);
+  color: darken($color: $base-color, $amount: 30%);
 }
 
 .color-4096 {
-  background-color: #bb4b51;
+  font-size: min(4.25vw, 4.25vh);
+  background-color: lighten($base-color, 42%);
+  color: darken($color: $base-color, $amount: 33%);
+}
+
+.color-8192 {
+  font-size: min(4.0vw, 4.0vh);
+  background-color: lighten($base-color, 39%);
+  color: darken($color: $base-color, $amount: 36%);
+}
+
+.color-16384 {
+  font-size: min(3.80vw, 3.80vh);
+  background-color: lighten($base-color, 36%);
+  color: darken($color: $base-color, $amount: 39%);
+}
+
+.color-32768 {
+  font-size: min(3.75vw, 3.75vh);
+  background-color: lighten($base-color, 33%);
+  color: lighten($color: $base-color, $amount: 99%);
+}
+
+.color-65536 {
+  font-size: min(3.60vw, 3.60vh);
+  background-color: lighten($base-color, 30%);
+  color: lighten($color: $base-color, $amount: 96%);
+}
+
+.color-131072 {
+  font-size: min(3.50vw, 3.50vh);
+  background-color: lighten($base-color, 27%);
+  color: lighten($color: $base-color, $amount: 93%);
+}
+
+.color-262144 {
+  font-size: min(3.50vw, 3.50vh);
+  background-color: lighten($base-color, 24%);
+  color: lighten($color: $base-color, $amount: 90%);
+}
+
+.color-524288 {
+  font-size: min(3.50vw, 3.50vh);
+  background-color: lighten($base-color, 21%);
+  color: lighten($color: $base-color, $amount: 87%);
+}
+
+.color-1048576 {
+  font-size: min(3.25vw, 3.25vh);
+  background-color: lighten($base-color, 18%);
+  color: lighten($color: $base-color, $amount: 84%);
+}
+
+.color-2097152 {
+  font-size: min(3.25vw, 3.50vh);
+  background-color: lighten($base-color, 15%);
+  color: lighten($color: $base-color, $amount: 81%);
+}
+
+.color-4194304 {
+  font-size: min(3.25vw, 3.25vh);
+  background-color: lighten($base-color, 12%);
+  color: lighten($color: $base-color, $amount: 78%);
+}
+
+.color-8388608 {
+  font-size: min(3.0vw, 3.0vh);
+  background-color: lighten($base-color, 9%);
+  color: lighten($color: $base-color, $amount: 75%);
+}
+
+.color-16777216 {
+  font-size: min(2.75vw, 2.75vh);
+  background-color: lighten($base-color, 6%);
+  color: lighten($color: $base-color, $amount: 72%);
+}
+
+.color-33554432 {
+  font-size: min(2.50vw, 2.50vh);
+  background-color: lighten($base-color, 3%);
+  color: lighten($color: $base-color, $amount: 69%);
+}
+
+.color-67108864 {
+  font-size: min(2.5vw, 2.5vh);
+  background-color: $base-color;
+  color: lighten($color: $base-color, $amount: 66%);
 }

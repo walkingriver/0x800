@@ -19,7 +19,7 @@
         class="game-piece"
         *ngFor="let piece of gamePieces"
         [class]="piece.colorClass + ' ' + piece.gridClass"
-      ></div>
+      >{{piece?.value}}</div>
     </div>
   </div>
 </ion-content>
