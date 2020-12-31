@@ -6,8 +6,7 @@ import {
   HostListener,
   ViewChild,
 } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
-import { Gesture, GestureController } from '@ionic/angular';
+import { Gesture, GestureController, IonSlides } from '@ionic/angular';
 
 interface GamePiece {
   value?: number;
@@ -25,6 +24,7 @@ interface GamePiece {
   styleUrls: ['./game.page.scss'],
 })
 export class GamePage implements AfterViewInit {
+  // @ViewChild(IonSlides) adSlider: IonSlides;
   @ViewChild('gameBoard') gameBoard: ElementRef;
   gamePieces: GamePiece[] = [];
   maxCol = 5;
@@ -47,7 +47,7 @@ export class GamePage implements AfterViewInit {
         gestureName: 'horizontalSwipe',
         direction: 'x',
         maxAngle: 30,
-        onMove: (detail) => this.onHorizontalSwipe(detail),
+        // onMove: (detail) => this.onHorizontalSwipe(detail),
         onEnd: (_) => this.onHorizontalSwipeEnd(_),
       },
       true
@@ -60,7 +60,7 @@ export class GamePage implements AfterViewInit {
         gestureName: 'verticalSwipe',
         direction: 'y',
         maxAngle: 30,
-        onMove: (detail) => this.onVerticalSwipe(detail),
+        // onMove: (detail) => this.onVerticalSwipe(detail),
         onEnd: (_) => this.onVerticalSwipeEnd(_),
       },
       true
@@ -69,6 +69,8 @@ export class GamePage implements AfterViewInit {
 
     this.verticalSwipe.enable();
     this.horizontalSwipe.enable();
+
+    // this.adSlider.startAutoplay();
 
     this.resetBoard();
   }

@@ -34,3 +34,15 @@
   --ion-color-primary-shade: rgb(151, 127, 91);
   --ion-color-primary-tint: rgb(121, 99, 66);
 }
+
+.ad{
+  img {
+    width: 75px;
+    height: auto;
+    float: left;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

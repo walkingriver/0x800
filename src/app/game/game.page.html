@@ -19,26 +19,44 @@
         class="game-piece"
         *ngFor="let piece of gamePieces"
         [class]="piece.colorClass + ' ' + piece.gridClass"
-      >{{piece?.value}}</div>
+      >
+        {{piece?.value}}
+      </div>
     </div>
   </div>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button (click)="shiftLeft()">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="shiftUp()">
-        <ion-icon slot="icon-only" name="arrow-up-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="shiftDown()">
-        <ion-icon slot="icon-only" name="arrow-down-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="shiftRight()">
-        <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+<!-- <ion-footer>
+  <ion-toolbar>
+    <ion-slides mode="ios" #ads>
+      <ion-slide>
+        <div class="ad">
+          <a
+            target="_blank"
+            href="https://gumroad.com/l/angular-advocate/25off"
+            class="href"
+          >
+            <img
+              src="https://static-2.gumroad.com/res/gumroad/4274086123125/asset_previews/f3873731a132cea0b72b2f7a8e601d19/retina/1605124869.png"
+              alt="Angular Advocate - How to awaken the champion within and become go-to expert at work"
+            />
+            Angular Advocate - How to awaken the champion within and become
+            go-to expert at work. 25% off today!
+          </a>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="ad">
+          <a target="_blank" href="https://amazon.com/author/mcallaghan">
+            <img
+              src="https://images-na.ssl-images-amazon.com/images/I/71LBGuwVwIL._US230_.jpg"
+              alt="Angular Advocate - How to awaken the champion within and become go-to expert at work"
+            />
+            Did you know I also write books? Find your next read today at
+            Amazon!
+          </a>
+        </div>
+      </ion-slide>
+    </ion-slides>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->
