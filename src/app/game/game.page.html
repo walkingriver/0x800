@@ -1,10 +1,22 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Game</ion-title>
+    <ion-title>2<sup>26</sup></ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="newGame()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button><ion-icon name="code"></ion-icon></ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button *ngIf="!isPlaying" (click)="startAutoPlay()"><ion-icon name="caret-forward"></ion-icon></ion-fab-button>
+      <ion-fab-button *ngIf="isPlaying"  (click)="stopAutoPlay()"><ion-icon name="pause"></ion-icon></ion-fab-button>
+    </ion-fab-list>
+  </ion-fab> -->
   <div class="game-wrapper">
     <div class="ion-padding">
       <h1 class="score">Score: {{score}}</h1>

@@ -2,11 +2,16 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Host,
   HostListener,
   ViewChild,
 } from '@angular/core';
-import { Gesture, GestureController, IonSlides } from '@ionic/angular';
+import {
+  Gesture,
+  GestureController,
+  IonSlides,
+  ModalController,
+} from '@ionic/angular';
+import { AdsComponent } from '../ads/ads.component';
 
 interface GamePiece {
   value?: number;
@@ -29,6 +34,7 @@ export class GamePage implements AfterViewInit {
   gamePieces: GamePiece[] = [];
   maxCol = 5;
   maxRow = 5;
+  isPlaying = false;
 
   direction: '' | 'north' | 'south' | 'east' | 'west' = '';
   horizontalSwipe: Gesture;
@@ -37,7 +43,10 @@ export class GamePage implements AfterViewInit {
   didMove = false;
   score = 0;
 
-  constructor(private gestureCtrl: GestureController) {}
+  constructor(
+    private gestureCtrl: GestureController,
+    private modalController: ModalController
+  ) {}
 
   ngAfterViewInit() {
     this.horizontalSwipe = this.gestureCtrl.create(
@@ -72,17 +81,24 @@ export class GamePage implements AfterViewInit {
 
     // this.adSlider.startAutoplay();
 
+    this.newGame();
+  }
+
+  async newGame() {
+    if (this.score) {
+      // confirm first
+    }
+
+    // Show an ad before resetting the board
+    const modal = await this.modalController.create({
+      component: AdsComponent,
+      backdropDismiss: true,
+      swipeToClose: true,
+      keyboardClose: true,
+    });
+    await modal.present();
+    await modal.onDidDismiss();
     this.resetBoard();
-  }
-
-  onHorizontalSwipe(detail) {
-    console.log('<<<<------>>>>>>');
-    console.log(detail);
-  }
-
-  onVerticalSwipe(detail) {
-    console.log('^^^^^^---vvvvvv');
-    console.log(detail);
   }
 
   onHorizontalSwipeEnd(detail) {
@@ -401,6 +417,7 @@ export class GamePage implements AfterViewInit {
     this.didMove = false;
     this.addRandomPiece();
     this.addRandomPiece();
+    this.isPlaying = false;
   }
 
   findEmptySpaces() {
@@ -465,4 +482,17 @@ export class GamePage implements AfterViewInit {
 
     this.demoBestBoard();
   }
+
+  startAutoPlay() {
+    this.isPlaying = true;
+  }
+
+  stopAutoPlay() {
+    this.isPlaying = false;
+  }
+
+  /**
+   * Tries each direction and choose the one with the best score increase.
+   */
+  autoAdvance() {}
 }
